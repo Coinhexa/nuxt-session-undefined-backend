@@ -1,0 +1,27 @@
+{
+  "name": "express_session_undefined_nuxt_test",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start-dev": "NODE_ENV=development nodemon app"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "connect-redis": "^6.1.1",
+    "cors": "^2.8.5",
+    "dotenv-flow": "^3.2.0",
+    "express": "^4.17.3",
+    "express-session": "^1.17.2",
+    "ioredis": "^4.28.5",
+    "passport": "^0.5.2",
+    "passport-local": "^1.0.0",
+    "ws": "^8.5.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.15"
+  }
+}
