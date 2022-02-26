@@ -1,11 +1,4 @@
-/**
- * Simple Idea to recreate the problem
- * 1) Define a passport serialize, deserialize with local strategy that takes a simple hardcoded username and password
- * 2) Do a GET request to user endpoint, you should get undefined
- * 3) Do a POST request to login endpoint with "email": "test@example.com" and "password":"123456789", it will be successful
- * 4) Open a websocket request to ws://localhost:3000 and send an {"event": "message"}
- * Problem is req.user is undefined inside the websocket parser! how to fix this?
- */
+
 require("dotenv-flow").config();
 const cors = require("cors");
 const http = require("http");
