@@ -1,11 +1,15 @@
 # Minimal Reproducible Example To Demonstrate Express Session undefined inside Nuxt SSR handler
 
+## ERROR FIXED NOW!
+- Thanks to some of the kind folks here https://www.reddit.com/r/node/comments/t2glov/how_exactly_does_session_work_when_your_frontend/
+
 ## How to run?
 ```
 npm i && npm run start-dev
 ```
 
 ## How to reproduce?
+- Checkout the main branch
 ### Step 1
 * Retrieve logged in user with the following command
 ```
