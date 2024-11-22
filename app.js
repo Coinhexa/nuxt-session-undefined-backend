@@ -1,23 +1,13 @@
-/**
- * Simple Idea to recreate the problem
- * 1) Define a passport serialize, deserialize with local strategy that takes a simple hardcoded username and password
- * 2) Do a GET request to user endpoint, you should get undefined
- * 3) Do a POST request to login endpoint with "email": "test@example.com" and "password":"123456789", it will be successful
- * 4) Open a websocket request to ws://localhost:3000 and send an {"event": "message"}
- * Problem is req.user is undefined inside the websocket parser! how to fix this?
- */
 require("dotenv-flow").config();
 const cors = require("cors");
 const http = require("http");
 const express = require("express");
 const passport = require("passport");
-const connectRedis = require("connect-redis");
+const RedisStore = require("connect-redis").default;
 const Redis = require("ioredis");
 const expressSession = require("express-session");
 const { Strategy: LocalStrategy } = require("passport-local");
 const { Server } = require("ws");
-
-const RedisStore = connectRedis(expressSession);
 
 const client = new Redis({
   host: process.env.REDIS_SESSION_HOST,
@@ -25,6 +15,8 @@ const client = new Redis({
   password: process.env.REDIS_SESSION_PASSWORD,
   db: process.env.REDIS_SESSION_DB,
 });
+
+const store = new RedisStore({ client });
 
 const loggedInUser = {
   userId: 1,
@@ -46,7 +38,7 @@ const sessionParser = expressSession({
     sameSite: process.env.SESSION_SAME_SITE === "true",
     secure: process.env.SESSION_SECURE === "true",
   },
-  store: new RedisStore({ client }),
+  store,
 });
 
 const app = new express();
@@ -161,4 +153,6 @@ websocketServer.on("connection", function (ws, request) {
   });
 });
 
-server.listen(+process.env.PORT, () => console.log(`server listening on ${process.env.PORT}`));
+server.listen(+process.env.PORT, () =>
+  console.log(`server listening on ${process.env.PORT}`)
+);
