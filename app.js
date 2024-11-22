@@ -8,6 +8,7 @@ const Redis = require("ioredis");
 const expressSession = require("express-session");
 const { Strategy: LocalStrategy } = require("passport-local");
 const { Server } = require("ws");
+const helmet = require("helmet");
 
 const client = new Redis({
   host: process.env.REDIS_SESSION_HOST,
@@ -47,6 +48,31 @@ app.use(
   cors({
     origin: "http://localhost:3000",
     credentials: true,
+  })
+);
+
+// https://github.com/SoftwareBrothers/adminjs/issues/607#issuecomment-693621747
+app.use(
+  helmet({
+    contentSecurityPolicy: {
+      directives: {
+        frameAncestors: ["'self'", "https://www.recaptcha.net"],
+        defaultSrc: ["'self'"],
+        scriptSrc: ["'self'", "'unsafe-inline'", "'unsafe-eval'"],
+        styleSrc: ["'self'", "https:", "'unsafe-inline'"],
+        baseUri: ["'self'"],
+        fontSrc: ["'self'", "https:", "data:"],
+        imgSrc: [
+          "'self'",
+          "data:",
+          "https://imagine.ai",
+          "https://www.imagine.ai",
+        ],
+      },
+    },
+    referrerPolicy: {
+      policy: "same-origin",
+    },
   })
 );
 
