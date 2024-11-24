@@ -163,16 +163,19 @@ app.post("/login", csrfSynchronisedProtection, (req, res, next) => {
   )(req, res, next);
 });
 
-app.post("/logout", (req, res, next) => {
-  req.logout();
-  req.session.destroy((err) => {
-    if (err) {
-      return next(err);
-    }
-    req.user = null;
-    res.clearCookie("connect.sid");
-    return res.json(true);
-  });
+app.post("/logout", async (req, res, next) => {
+  try {
+    // Log out the user
+    await new Promise((resolve, reject) => {
+      req.logout({ keepSessionInfo: true }, (err) =>
+        err ? reject(err) : resolve()
+      );
+    });
+    return res.json({ success: true, message: "Logged out successfully" });
+  } catch (error) {
+    console.error("Error during logout:", error);
+    return next(error);
+  }
 });
 
 const map = new Map();
