@@ -143,20 +143,24 @@ app.get("/session/token", (req, res) => {
 });
 
 app.post("/login", csrfSynchronisedProtection, (req, res, next) => {
-  passport.authenticate("local", {}, async (error, user, info) => {
-    if (error) {
-      return next(error);
-    }
-    if (!user) {
-      return res.json(false);
-    }
-    req.logIn(user, (error) => {
+  passport.authenticate(
+    "local",
+    { keepSessionInfo: true },
+    async (error, user, info) => {
       if (error) {
         return next(error);
       }
-      return res.json(user);
-    });
-  })(req, res, next);
+      if (!user) {
+        return res.json(false);
+      }
+      req.logIn(user, { keepSessionInfo: true }, (error) => {
+        if (error) {
+          return next(error);
+        }
+        return res.json(user);
+      });
+    }
+  )(req, res, next);
 });
 
 app.post("/logout", (req, res, next) => {
