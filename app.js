@@ -49,7 +49,24 @@ const app = new express();
 
 app.use(
   cors({
-    origin: "http://localhost:3000",
+    origin: [
+      "127.0.0.1",
+      "http://127.0.0.1",
+      "http://127.0.0.1:3000",
+      "http://127.0.0.1:3000/",
+      "http://127.0.0.1:8000",
+      "http://127.0.0.1:8000/",
+      "http://frontend.chapi.local:3000",
+      "http://frontend.chapi.local:3000/",
+      "http://backend.chapi.local:8000",
+      "http://backend.chapi.local:8000/",
+      "http://localhost",
+      "http://localhost:3000",
+      "http://localhost:3000/",
+      "http://localhost:8000",
+      "http://localhost:8000/",
+      "localhost",
+    ],
     credentials: true,
   })
 );
