@@ -39,7 +39,7 @@ const sessionParser = expressSession({
     maxAge: +process.env.SESSION_MAX_AGE,
     // https://stackoverflow.com/questions/61999068/how-do-i-use-cookies-in-express-session-connect-sid-will-soon-be-rejected
     // https://github.com/jaredhanson/passport-twitter/issues/101
-    sameSite: process.env.SESSION_SAME_SITE === "true",
+    sameSite: process.env.SESSION_SAME_SITE,
     secure: process.env.SESSION_SECURE === "true",
   },
   store,
