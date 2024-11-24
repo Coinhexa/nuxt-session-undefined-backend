@@ -9,6 +9,9 @@ const expressSession = require("express-session");
 const { Strategy: LocalStrategy } = require("passport-local");
 const { Server } = require("ws");
 const helmet = require("helmet");
+const { csrfSync } = require("csrf-sync");
+
+const { generateToken, csrfSynchronisedProtection } = csrfSync();
 
 const client = new Redis({
   host: process.env.REDIS_SESSION_HOST,
@@ -109,10 +112,21 @@ app.use(express.urlencoded({ extended: false }));
 app.use(sessionParser);
 app.use(passport.initialize());
 app.use(passport.session());
+
 app.get("/user", (req, res) => {
   return res.json(req.user);
 });
-app.post("/login", (req, res, next) => {
+
+app.get("/csrf/token", (req, res) => {
+  req.session.test = 'abracadabra';
+  return res.json({ token: generateToken(req) });
+});
+
+app.get("/session/token", (req, res) => {
+  return res.json({ token: req.session.csrfToken, test: req.session.test });
+});
+
+app.post("/login", csrfSynchronisedProtection, (req, res, next) => {
   passport.authenticate("local", {}, async (error, user, info) => {
     if (error) {
       return next(error);

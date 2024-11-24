@@ -1,31 +1,19 @@
-# Minimal Reproducible Example To Demonstrate Express Session undefined inside Nuxt SSR handler
+# Minimal reproducible example To demonstrate express-session not playing well with csrf
 
 ## How to run?
-```
-npm i && npm run start-dev
-```
 
-## How to reproduce?
 ### Step 1
-* Retrieve logged in user with the following command
-```
-curl -v -b cookies.txt --insecure -XGET -H "Content-type: application/json" 'http://localhost:3000/user'
-```
-* The above command should return nothing because we are not logged in yet
+
+- Clone the [backend](https://github.com/Coinhexa/nuxt-session-undefined-backend)
+
+        git clone https://github.com/Coinhexa/nuxt-session-undefined-backend.git
 
 ### Step 2
-* Login with the following command
-```
-curl -v --cookie-jar cookies.txt --insecure -XPOST -H "Content-type: application/json" -d '{"email":"test@example.com","password":"123456789"}' 'http://localhost:3000/login'
-```
-* You sould be able to get the response below
-```
-{"userId":1,"userName":"test@example.com","isAdmin":false}
-```
+
+- Navigate into the directory
+
+        cd nuxt-session-undefined-backend && npm i && npm run start-dev
+
 ### Step 3
-* Verify we are still logged in by running command from step 1
-* You should be able to get the response below
-```
-{"userId":1,"userName":"test@example.com","isAdmin":false}
-```
-* This means backend works perfectly, time to test the frontend
+
+- Run the frontend as per the instructions mentioned [there](https://github.com/Coinhexa/nuxt-session-undefined-frontend)
