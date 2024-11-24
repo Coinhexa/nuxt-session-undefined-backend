@@ -135,12 +135,11 @@ app.get("/user", (req, res) => {
 });
 
 app.get("/csrf/token", (req, res) => {
-  req.session.test = 'abracadabra';
   return res.json({ token: generateToken(req) });
 });
 
 app.get("/session/token", (req, res) => {
-  return res.json({ token: req.session.csrfToken, test: req.session.test });
+  return res.json({ token: req.session.csrfToken });
 });
 
 app.post("/login", csrfSynchronisedProtection, (req, res, next) => {
